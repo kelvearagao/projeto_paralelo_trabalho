@@ -1,50 +1,14 @@
 <?php
 
-Route::resource('users', 'UserController');
+Route::resource('package', 'PackageController');
 
-Route::get('/', function()
-{
-	return View::make('teste/form');
-});
 
-Route::post('/registration', function()
-{
-	$data = Input::all();
 
-	$rules = array(
-		'username' => 'required|alpha_num|min:3|max:32',
-		'email' => 'required|email',
-		'password' => array('required', 'confirmed', 'min:3')
-	);
-
-	$validator = Validator::make($data, $rules);
+Route::get('attendance', 'AttendanceController@index');
+Route::post('attendance/apply_room_standard', 'AttendanceController@applyRoomStandard');
+Route::get('attendance/lista_registros', 'AttendanceController@listaRegistros');
+Route::get('attendance/selecionar_padrao/order_id/{id}', 'AttendanceController@selecionarPadrao');
+Route::get('attendance/editar_acomodacao/hotel_id/{hotel_id}/order_id/{order_id}', 'AttendanceController@editarAcomodacao');
+Route::post('attendance/aplicarPadrao', 'AttendanceController@aplicarPadrao');
+Route::post('attendance/salvarAcomodacao', 'AttendanceController@salvarAcomodacao');
 	
-	if ($validator->passes()) {
-		return 'Data was saved.';
-	}
-
-	return Redirect::to('/')->withErrors($validator);
-});
-
-Route::get('/teste', function()
-{
-	
-	$packages = Package::find(3);
-	echo '--Pacote: '.$packages.'<br/>';
-	
-	$packageDays = $packages->packageDays;
-	
-	foreach($packageDays as $packageDay) {
-		echo '----Pacote do dia: '.$packageDay.'<br/>';
-		
-		$mainServices = $packageDay->mainServices;
-		foreach($mainServices as $mainService) {
-			$texts = $mainService->serviceDay->texts;
-			
-			foreach($texts as $text) {
-				echo '-------'.$text->service_day_id.' - '.$text->language.' - '.$text->title.'<br/>';
-			}
-		}
-	}
-	
-});

@@ -2,18 +2,10 @@
 
 class Package extends Eloquent {
 
-/*
-|--------------------------------------------------------------------------
-| Configs
-|--------------------------------------------------------------------------
-*/
-	public    $timestamps = false;
+	protected $guarded = ['id'];
 
-/*
-|--------------------------------------------------------------------------
-| Relationships
-|--------------------------------------------------------------------------
-*/
+	public   $timestamps = false;
+
 	public function packageDays()
 	{
 		return $this->hasMany('PackageDay');
